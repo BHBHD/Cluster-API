@@ -1,0 +1,21 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model cluster_project {
+    id Int @id @default(autoincrement())
+    uid String
+    title String @unique
+    content String
+    author String
+    image String?
+    created_at DateTime @default(now())
+}
