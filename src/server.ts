@@ -38,7 +38,7 @@ class API {
     }
 }
 
-const port: number = parseInt('3000');
+const port: number = parseInt('8000');
 app.listen(port, () => Log.info(`⚡ API is live on port http://127.0.0.1:${port}`.green, `ESTABLISH`));
 
 new API();
