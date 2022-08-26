@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import Log from "./utils/log";
-import {router as clusterRoutes} from './routes/cluster-routes';
+import {router as blogRoutes} from './routes/blog-routes';
+import {router as userRoutes} from './routes/user-routes';
 
 export const app = express();
 
@@ -27,7 +28,8 @@ class API {
         app.use(bodyParser.urlencoded({extended: true}));
         app.use(routeLogger);
 
-        app.use(``, clusterRoutes);
+        app.use(`/blogs`, blogRoutes);
+        app.use(`/user`, userRoutes);
         app.get(`*`, async (req, res) => {
             res.status(404)
                 .json({

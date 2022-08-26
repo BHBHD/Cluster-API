@@ -12,10 +12,22 @@ datasource db {
 
 model cluster_project {
     id Int @id @default(autoincrement())
-    uid String
     title String @unique
     content String
     author String
     image String?
     created_at DateTime @default(now())
+    uid String @unique
+    user cluster_user @relation(fields: [uid], references: [uid])
+}
+
+model cluster_user {
+    id Int @id @default(autoincrement())
+    uid String @unique
+    name String
+    email String
+    image String?
+    has_verified_email Boolean @default(false)
+    is_admin Boolean @default(false)
+    blogs cluster_project?
 }
