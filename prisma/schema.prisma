@@ -17,7 +17,7 @@ model cluster_project {
     author String
     image String?
     created_at DateTime @default(now())
-    uid String @unique
+    uid String
     user cluster_user @relation(fields: [uid], references: [uid])
 }
 
@@ -29,5 +29,5 @@ model cluster_user {
     image String?
     has_verified_email Boolean @default(false)
     is_admin Boolean @default(false)
-    blogs cluster_project?
+    blogs cluster_project[]
 }
