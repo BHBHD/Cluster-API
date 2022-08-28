@@ -4,6 +4,8 @@ import { PrismaClient } from "@prisma/client";
 export const router = Router();
 const prisma = new PrismaClient();
 
+router.get('/health-check', (req, res) => res.sendStatus(200));
+
 router.get('', async (req, res) => {
     const uid = req.query.uid;
     if (!uid) return res.status(400).json({ error: 'Missing UID' });

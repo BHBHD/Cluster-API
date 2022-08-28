@@ -26,7 +26,7 @@ router.put('/create_blog', async (req, res) => {
 
     const created_at = new Date().toISOString();
     try {
-        const imgURL = (image) ? `http://localhost:8000/blogs/image?img=${image}` : null;
+        const imgURL = (image) ? `http://18.206.118.16/blogs/image?img=${image}` : null;
 
         let blog = await prisma.cluster_project.create({
             data: {
