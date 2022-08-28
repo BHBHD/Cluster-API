@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import fileupload from 'express-fileupload';
 import Log from "./utils/log";
 import {router as blogRoutes} from './routes/blog-routes';
 import {router as userRoutes} from './routes/user-routes';
@@ -23,7 +24,13 @@ let routeLogger = (req, res, next) => {
 class API {
 
     constructor() {
-        app.use(cors());
+        app.use(cors({
+            origin: '*',
+            methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+            credentials: false
+        }));
+        app.use(fileupload());
+        app.use(express.static("files"));
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({extended: true}));
         app.use(routeLogger);

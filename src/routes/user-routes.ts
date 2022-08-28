@@ -23,9 +23,6 @@ router.post('', async (req, res) => {
     const is_admin = req.body.is_admin;
     const has_verified_email = req.body.has_verified_email;
 
-    console.log(req.body);
-    
-
     if (!uid || !name || !email) return res.status(400).json({ error: 'Missing Attributes' });
 
     let user = await prisma.cluster_user.findUnique({

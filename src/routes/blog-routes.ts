@@ -17,8 +17,6 @@ router.put('/create_blog', async (req, res) => {
     const image = req.body.image;
     const uid = req.body.uid;
 
-    console.log(req.body);
-
     if (!title || !content || !uid) return res.status(400).json({error: 'Missing Arguments'});
 
     let user = await prisma.cluster_user.findUnique({
@@ -28,11 +26,13 @@ router.put('/create_blog', async (req, res) => {
 
     const created_at = new Date().toISOString();
     try {
+        const imgURL = (image) ? `http://localhost:8000/blogs/image?img=${image}` : null;
+
         let blog = await prisma.cluster_project.create({
             data: {
                 title: title.toString(),
                 content: content.toString(),
-                image: (image) ? image.toString() : null,
+                image: image ? imgURL : null,
                 uid: user.uid,
                 author: user.name,
                 created_at: created_at
@@ -42,6 +42,25 @@ router.put('/create_blog', async (req, res) => {
     } catch (e: any) {
         return res.status(500).json({error: e.message});
     }
+});
+
+router.get('/image', (req, res) => {
+    const image = req.query.img;
+    if (!image) return res.status(400).json({error: 'Missing Image Name'});
+    return res.status(200).sendFile(`${__dirname}/images/${image}`);
+});
+
+router.post('/upload', (req, res) => {
+    const newpath = __dirname + "/images/";
+    const file: any = req.files.image;
+    const filename = file.name;
+
+    file.mv(`${newpath}${filename}`, (err) => {
+        if (err) {
+            res.status(500).send({ message: "File upload failed", code: 500 });
+        }
+        res.status(200).send({ message: "File Uploaded", f: `${filename}` });
+    });
 });
 
 router.post('/update_blog', async (req, res) => {
