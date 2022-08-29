@@ -37,10 +37,11 @@ router.post('', async (req, res) => {
             data: {
                 uid: uid.toString(),
                 name: (name) ? name.toString() : 'Cluster User',
-                email: email.toString()
+                email: email.toString(),
+                image: (image) ? image.toString() : null
             }
         });
-        return res.status(200).json({ message: 'User created successfully' });
+        return res.status(200).json({ message: 'User created successfully', user: user });
     } catch (e: any) {
         return res.status(500).json({ error: e.message });
     }
