@@ -75,12 +75,14 @@ router.post('/update_blog', async (req, res) => {
     if (!blog) return res.status(404).json({error: 'Blog Not Found'});
 
     try {
+        const imgURL = (image) ? `https://cluster.dayzkillfeed.gg/blogs/image?img=${image}` : null;
+
         let updated_blog = await prisma.cluster_project.update({
             where: {id: parseInt(id)},
             data: {
                 title: (title == '') ? blog.title : title.toString(),
                 content: (content == '') ? blog.content : content.toString(),
-                image: (image == '') ? blog.image : image.toString()
+                image: (image == '') ? blog.image : image ? imgURL : null
             }
         });
         return res.status(200).json({message: 'Blog updated successfully', blog: updated_blog});
